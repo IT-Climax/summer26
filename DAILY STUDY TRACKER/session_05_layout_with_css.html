@@ -1,0 +1,133 @@
+<!--
+======================================================================
+SESSION 5: Layout with CSS
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
+
+OBJECTIVES:
+- Learn to control spacing and layout positioning.
+
+TOPICS:
+- margin, padding, border, box-sizing, flexbox (display: flex), media queries (@media).
+
+FEATURES BUILT:
+- Goals and Habits sections side-by-side on larger screens (stacked on mobile); large tappable buttons.
+
+EVERYDAY ANALOGY:
+- Padding vs Margin: Padding is inner matting around a framed photo; Margin is outer spacing between picture frames.
+- Flexbox: Flexible rubber band layout trays where items arrange side-by-side automatically.
+- Media queries: Automatic transformer switch that stacks columns vertically on phones while placing them side-by-side on laptops.
+
+WHAT THE CODE DOES:
+- `box-sizing: border-box` includes padding and borders in element width calculation.
+- `display: flex` on `.container` arranges `.section` divs side-by-side.
+- `@media (max-width: 600px)` overrides layout to `flex-direction: column` for mobile devices.
+
+EXERCISES:
+- Adjust spacing between elements.
+- Experiment with `flex-direction`.
+
+EXPECTED OUTCOME:
+- A clean, mobile-friendly layout matching the design spec.
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Goals Tracker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F7F5;
+            color: #223027;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2F6E51;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        /* This container arranges the two sections side by side */
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            flex: 1;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: 2px solid #cccccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            margin-top: 10px;
+            background-color: #2F6E51;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* On small screens, stack the sections instead of side-by-side */
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Daily Goals Tracker</h1>
+    <p>This app will help me set goals and habits, and track my progress every day.</p>
+
+    <div class="container">
+        <div class="section">
+            <h2>Goals</h2>
+            <ul id="goalList">
+                <li>Finish my homework</li>
+                <li>Read for 20 minutes</li>
+            </ul>
+            <input type="text" id="goalInput" placeholder="Type a new goal...">
+            <button id="addGoalBtn">Add Goal</button>
+        </div>
+
+        <div class="section">
+            <h2>Habits</h2>
+            <ul id="habitList">
+                <li>Drink water</li>
+                <li>Stretch in the morning</li>
+            </ul>
+            <input type="text" id="habitInput" placeholder="Type a new habit...">
+            <button id="addHabitBtn">Add Habit</button>
+        </div>
+    </div>
+
+</body>
+</html>

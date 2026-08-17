@@ -1,0 +1,414 @@
+<!--
+======================================================================
+SESSION 13: Progress Tracking, Polish & "Start New Day"
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
+
+OBJECTIVES:
+- Add a progress summary feature.
+- Add an Edit feature using prompt().
+- Finish daily-reset logic and final polish pass.
+
+TOPICS:
+- Progress calculation (completed vs total), template strings (`...`), prompt(), "Start New Day" habit reset, final CSS polish pass.
+
+FEATURES BUILT:
+- Progress indicator ("3 of 5 completed today"); Edit button per item; "Start New Day" button that resets habit checkmarks without clearing goals; empty list messages.
+
+EVERYDAY ANALOGY:
+- Template strings: Fill-in-the-blank cards `${completed}/${total}`.
+- Progress counter: Real-time game score dashboard.
+- Start New Day: Erasing checkmarks on your fridge whiteboard calendar while leaving your printed goal list untouched.
+- prompt(): Pop-up box asking for new item text.
+
+WHAT THE CODE DOES:
+- `renderProgress()` calculates completed count using `.filter(item => item.completed).length`.
+- `editGoal(id)` pops up `prompt()` and updates `.text` if user clicks OK.
+- `handleStartNewDay()` loops over `habits` array and resets `completed = false`.
+
+EXERCISES:
+- Personalize colors and styling. Write a top comment summarizing how your app works in your own words.
+
+EXPECTED OUTCOME:
+- Complete, polished, runnable single-file web application!
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Goals Tracker</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F7F5;
+            color: #223027;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 { text-align: center; color: #2F6E51; }
+        p { text-align: center; }
+
+        #progressSummary {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #newDayBtn {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: auto;
+            padding: 10px 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            flex: 1;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        ul { list-style: none; padding: 0; }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        li span { flex: 1; font-size: 16px; }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888888;
+        }
+
+        li button {
+            width: auto;
+            padding: 6px 10px;
+            font-size: 14px;
+            background-color: #C0392B;
+        }
+
+        li button.edit-btn {
+            background-color: #2E86AB;
+        }
+
+        .empty-message {
+            color: #888888;
+            font-style: italic;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: 2px solid #cccccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            margin-top: 10px;
+            background-color: #2F6E51;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Daily Goals Tracker</h1>
+    <p>This app will help me set goals and habits, and track my progress every day.</p>
+
+    <div id="progressSummary"></div>
+    <button id="newDayBtn">Start New Day</button>
+
+    <div class="container">
+        <div class="section">
+            <h2>Goals</h2>
+            <ul id="goalList"></ul>
+            <input type="text" id="goalInput" placeholder="Type a new goal...">
+            <button id="addGoalBtn">Add Goal</button>
+        </div>
+
+        <div class="section">
+            <h2>Habits</h2>
+            <ul id="habitList"></ul>
+            <input type="text" id="habitInput" placeholder="Type a new habit...">
+            <button id="addHabitBtn">Add Habit</button>
+        </div>
+    </div>
+
+    <script>
+        // ----- DATA -----
+        // Load any previously saved goals/habits, or start empty
+        let goals = JSON.parse(localStorage.getItem("goals")) || [];
+        let habits = JSON.parse(localStorage.getItem("habits")) || [];
+        let nextId = JSON.parse(localStorage.getItem("nextId")) || 1;
+
+        function saveData() {
+            localStorage.setItem("goals", JSON.stringify(goals));
+            localStorage.setItem("habits", JSON.stringify(habits));
+            localStorage.setItem("nextId", JSON.stringify(nextId));
+        }
+
+        // ----- RENDER FUNCTIONS -----
+        const goalList = document.getElementById("goalList");
+        const habitList = document.getElementById("habitList");
+        const progressSummary = document.getElementById("progressSummary");
+
+        function renderGoals() {
+            goalList.innerHTML = "";
+
+            if (goals.length === 0) {
+                const message = document.createElement("li");
+                message.textContent = "No goals yet — add one below!";
+                message.classList.add("empty-message");
+                goalList.appendChild(message);
+            }
+
+            for (let i = 0; i < goals.length; i++) {
+                const goal = goals[i];
+                const li = document.createElement("li");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = goal.completed;
+                checkbox.addEventListener("click", function () {
+                    toggleGoalComplete(goal.id);
+                });
+
+                const span = document.createElement("span");
+                span.textContent = goal.text;
+                if (goal.completed) span.classList.add("completed");
+
+                // Edit button - lets the user change the goal's text
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "Edit";
+                editBtn.classList.add("edit-btn");
+                editBtn.addEventListener("click", function () {
+                    editGoal(goal.id);
+                });
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.addEventListener("click", function () {
+                    deleteGoal(goal.id);
+                });
+
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(editBtn);
+                li.appendChild(deleteBtn);
+                goalList.appendChild(li);
+            }
+        }
+
+        function renderHabits() {
+            habitList.innerHTML = "";
+
+            if (habits.length === 0) {
+                const message = document.createElement("li");
+                message.textContent = "No habits yet — add one below!";
+                message.classList.add("empty-message");
+                habitList.appendChild(message);
+            }
+
+            for (let i = 0; i < habits.length; i++) {
+                const habit = habits[i];
+                const li = document.createElement("li");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = habit.completed;
+                checkbox.addEventListener("click", function () {
+                    toggleHabitComplete(habit.id);
+                });
+
+                const span = document.createElement("span");
+                span.textContent = habit.text;
+                if (habit.completed) span.classList.add("completed");
+
+                // Edit button - lets the user change the habit's text
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "Edit";
+                editBtn.classList.add("edit-btn");
+                editBtn.addEventListener("click", function () {
+                    editHabit(habit.id);
+                });
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.addEventListener("click", function () {
+                    deleteHabit(habit.id);
+                });
+
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(editBtn);
+                li.appendChild(deleteBtn);
+                habitList.appendChild(li);
+            }
+        }
+
+        // Counts completed vs total across BOTH goals and habits
+        function renderProgress() {
+            const allItems = goals.concat(habits);
+            const totalCount = allItems.length;
+            const completedCount = allItems.filter(function (item) {
+                return item.completed;
+            }).length;
+
+            progressSummary.textContent = `${completedCount}/${totalCount} completed today`;
+        }
+
+        function renderAll() {
+            renderGoals();
+            renderHabits();
+            renderProgress();
+        }
+
+        // ----- GOAL ACTIONS -----
+        function toggleGoalComplete(id) {
+            for (let i = 0; i < goals.length; i++) {
+                if (goals[i].id === id) goals[i].completed = !goals[i].completed;
+            }
+            renderAll();
+            saveData();
+        }
+
+        function deleteGoal(id) {
+            goals = goals.filter(function (goal) { return goal.id !== id; });
+            renderAll();
+            saveData();
+        }
+
+        // Lets the user change the text of an existing goal
+        function editGoal(id) {
+            for (let i = 0; i < goals.length; i++) {
+                if (goals[i].id === id) {
+                    // prompt() pops up a small box pre-filled with the current text
+                    const newText = prompt("Edit your goal:", goals[i].text);
+
+                    // If the user clicked "Cancel", prompt() returns null - do nothing
+                    // If the user cleared the box, trim() gives an empty string - do nothing
+                    if (newText !== null && newText.trim() !== "") {
+                        goals[i].text = newText.trim();
+                    }
+                }
+            }
+            renderAll();
+            saveData();
+        }
+
+        const addGoalBtn = document.getElementById("addGoalBtn");
+        const goalInput = document.getElementById("goalInput");
+
+        function handleAddGoal() {
+            const typedText = goalInput.value.trim();
+            if (typedText === "") return; // Ignore empty input
+
+            const newGoal = { id: nextId, text: typedText, completed: false };
+            nextId = nextId + 1;
+            goals.push(newGoal);
+
+            renderAll();
+            saveData();
+            goalInput.value = "";
+        }
+
+        addGoalBtn.addEventListener("click", handleAddGoal);
+
+        // ----- HABIT ACTIONS -----
+        function toggleHabitComplete(id) {
+            for (let i = 0; i < habits.length; i++) {
+                if (habits[i].id === id) habits[i].completed = !habits[i].completed;
+            }
+            renderAll();
+            saveData();
+        }
+
+        function deleteHabit(id) {
+            habits = habits.filter(function (habit) { return habit.id !== id; });
+            renderAll();
+            saveData();
+        }
+
+        // Lets the user change the text of an existing habit
+        function editHabit(id) {
+            for (let i = 0; i < habits.length; i++) {
+                if (habits[i].id === id) {
+                    const newText = prompt("Edit your habit:", habits[i].text);
+
+                    if (newText !== null && newText.trim() !== "") {
+                        habits[i].text = newText.trim();
+                    }
+                }
+            }
+            renderAll();
+            saveData();
+        }
+
+        const addHabitBtn = document.getElementById("addHabitBtn");
+        const habitInput = document.getElementById("habitInput");
+
+        function handleAddHabit() {
+            const typedText = habitInput.value.trim();
+            if (typedText === "") return;
+
+            const newHabit = { id: nextId, text: typedText, completed: false };
+            nextId = nextId + 1;
+            habits.push(newHabit);
+
+            renderAll();
+            saveData();
+            habitInput.value = "";
+        }
+
+        addHabitBtn.addEventListener("click", handleAddHabit);
+
+        // ----- START NEW DAY -----
+        // Resets only habit completion (not goals), simulating a fresh day
+        const newDayBtn = document.getElementById("newDayBtn");
+
+        function handleStartNewDay() {
+            for (let i = 0; i < habits.length; i++) {
+                habits[i].completed = false;
+            }
+            renderAll();
+            saveData();
+        }
+
+        newDayBtn.addEventListener("click", handleStartNewDay);
+
+        // ----- INITIAL RENDER -----
+        // Show anything already saved from a previous visit
+        renderAll();
+    </script>
+
+</body>
+</html>

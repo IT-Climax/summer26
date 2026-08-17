@@ -1,0 +1,87 @@
+<!--
+======================================================================
+SESSION 4: Introduction to CSS
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
+
+OBJECTIVES:
+- Understand what CSS is and how it attaches to HTML.
+
+TOPICS:
+- <style> tag, CSS selectors (tag, class, id), color, font-size, font-family, text-align.
+
+FEATURES BUILT:
+- Basic color scheme (2 colors), clean readable font, centered headings.
+
+EVERYDAY ANALOGY:
+- If HTML is the skeleton, CSS is the clothing, paint, and interior design:
+  * HTML says WHAT is on the page.
+  * CSS says HOW IT LOOKS (colors, fonts, sizes, positioning).
+  * Selectors are like addressing an envelope to style specific rooms/elements.
+
+WHAT THE CODE DOES:
+- CSS lives inside a <style> tag inside <head>.
+- Selectors tell the browser which elements to style:
+  * `body` targets the whole document.
+  * `h1` targets the main title.
+- Properties like `background-color`, `color`, and `font-family` change appearance.
+
+EXERCISES:
+- Change the color scheme to your own preference.
+- Make the main heading larger.
+
+EXPECTED OUTCOME:
+- The page has a visual identity instead of default browser styling.
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Goals Tracker</title>
+    <style>
+        /* This styles the whole page: background color and default font */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F7F5;
+            color: #223027;
+        }
+
+        /* This styles our main heading */
+        h1 {
+            text-align: center;
+            color: #2F6E51;
+        }
+
+        h2 {
+            color: #2F6E51;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Daily Goals Tracker</h1>
+    <p>This app will help me set goals and habits, and track my progress every day.</p>
+
+    <div>
+        <h2>Goals</h2>
+        <ul id="goalList">
+            <li>Finish my homework</li>
+            <li>Read for 20 minutes</li>
+        </ul>
+        <input type="text" id="goalInput" placeholder="Type a new goal...">
+        <button id="addGoalBtn">Add Goal</button>
+    </div>
+
+    <div>
+        <h2>Habits</h2>
+        <ul id="habitList">
+            <li>Drink water</li>
+            <li>Stretch in the morning</li>
+        </ul>
+        <input type="text" id="habitInput" placeholder="Type a new habit...">
+        <button id="addHabitBtn">Add Habit</button>
+    </div>
+
+</body>
+</html>

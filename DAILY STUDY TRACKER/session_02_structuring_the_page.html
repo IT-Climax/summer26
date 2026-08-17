@@ -1,0 +1,66 @@
+<!--
+======================================================================
+SESSION 2: Structuring the Page
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
+
+OBJECTIVES:
+- Learn common structural/content tags.
+- Understand element nesting.
+
+TOPICS:
+- <h1>–<h3>, <p>, <div>, <ul>/<li>, comments.
+
+FEATURES BUILT:
+- Two sections: "Goals" and "Habits", each with a placeholder list.
+
+EVERYDAY ANALOGY:
+- Nesting is like boxes inside boxes:
+  * A <div> is like a cardboard box labeled "Goals" or "Habits".
+  * Inside the box, you put a section title label (<h2>) and a list folder (<ul>).
+  * Inside the list folder, each index card (<li>) represents one item.
+
+WHAT THE CODE DOES:
+- A <div> is a container box that groups related elements together.
+- <h2> is a smaller secondary heading used for section titles.
+- <ul> stands for "unordered list" (bulleted list).
+- <li> stands for "list item".
+- Nesting means putting elements inside other elements (e.g. <li> inside <ul> inside <div>).
+
+EXERCISES:
+- Add 2 fake goals and 2 fake habits as <li> list items by hand.
+
+EXPECTED OUTCOME:
+- A static two-section layout resembling the final app's skeleton.
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Goals Tracker</title>
+</head>
+<body>
+
+    <h1>My Daily Goals Tracker</h1>
+    <p>This app will help me set goals and habits, and track my progress every day.</p>
+
+    <!-- A div is a "box" that groups related things together. -->
+    <div>
+        <h2>Goals</h2>
+        <ul>
+            <li>Finish my homework</li>
+            <li>Read for 20 minutes</li>
+        </ul>
+    </div>
+
+    <div>
+        <h2>Habits</h2>
+        <ul>
+            <li>Drink water</li>
+            <li>Stretch in the morning</li>
+        </ul>
+    </div>
+
+</body>
+</html>

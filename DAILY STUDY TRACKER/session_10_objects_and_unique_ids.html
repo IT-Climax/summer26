@@ -1,0 +1,134 @@
+<!--
+======================================================================
+SESSION 10: Objects and Unique IDs
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
+
+OBJECTIVES:
+- Understand objects as a way to bundle related pieces of data together.
+
+TOPICS:
+- `{}` object literal syntax, key-value pairs, dot notation, `{ id, text, completed }`.
+
+FEATURES BUILT:
+- Goals/habits stored as structured objects with unique `id` counters and `completed: false`.
+
+EVERYDAY ANALOGY:
+- Object as an ID Card / Student Card: Bundling ID number, full name, and grade level into one card.
+- Unique ID: If two students in a school are named "Alex", calling "Alex" causes confusion; calling "Student #104" identifies one exact person.
+
+WHAT THE CODE DOES:
+- `const newGoal = { id: nextId, text: typedText, completed: false };` creates a structured record.
+- `nextId = nextId + 1;` increments the global counter so every item gets a unique ID number.
+- Dot notation (`goals[i].text`) accesses properties on the object during rendering.
+
+EXERCISES:
+- Print a full goal object to console and examine its properties in DevTools.
+
+EXPECTED OUTCOME:
+- Upgraded data structure ready to handle complete and delete actions per item.
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Goals Tracker</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #F4F7F5; color: #223027; margin: 0; padding: 20px; }
+        h1 { text-align: center; color: #2F6E51; }
+        p { text-align: center; }
+        .container { display: flex; gap: 20px; max-width: 800px; margin: 0 auto; }
+        .section { flex: 1; background-color: #FFFFFF; border-radius: 10px; padding: 20px; }
+        input { width: 100%; padding: 12px; font-size: 16px; margin-top: 10px; border: 2px solid #cccccc; border-radius: 6px; }
+        button { width: 100%; padding: 14px; font-size: 16px; margin-top: 10px; background-color: #2F6E51; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        @media (max-width: 600px) { .container { flex-direction: column; } }
+    </style>
+</head>
+<body>
+
+    <h1>My Daily Goals Tracker</h1>
+    <p>This app will help me set goals and habits, and track my progress every day.</p>
+
+    <div class="container">
+        <div class="section">
+            <h2>Goals</h2>
+            <ul id="goalList"></ul>
+            <input type="text" id="goalInput" placeholder="Type a new goal...">
+            <button id="addGoalBtn">Add Goal</button>
+        </div>
+
+        <div class="section">
+            <h2>Habits</h2>
+            <ul id="habitList"></ul>
+            <input type="text" id="habitInput" placeholder="Type a new habit...">
+            <button id="addHabitBtn">Add Habit</button>
+        </div>
+    </div>
+
+    <script>
+        let goals = [];
+        let habits = [];
+        let nextId = 1; // A counter used to give every goal/habit a unique ID
+
+        const goalList = document.getElementById("goalList");
+        const habitList = document.getElementById("habitList");
+
+        function renderGoals() {
+            goalList.innerHTML = "";
+            for (let i = 0; i < goals.length; i++) {
+                const li = document.createElement("li");
+                li.textContent = goals[i].text; // Objects use dot notation to read a property
+                goalList.appendChild(li);
+            }
+        }
+
+        function renderHabits() {
+            habitList.innerHTML = "";
+            for (let i = 0; i < habits.length; i++) {
+                const li = document.createElement("li");
+                li.textContent = habits[i].text;
+                habitList.appendChild(li);
+            }
+        }
+
+        const addGoalBtn = document.getElementById("addGoalBtn");
+        const goalInput = document.getElementById("goalInput");
+
+        function handleAddGoal() {
+            const typedText = goalInput.value;
+
+            // Create an object bundling id, text, and completed status together
+            const newGoal = {
+                id: nextId,
+                text: typedText,
+                completed: false
+            };
+            nextId = nextId + 1;
+
+            goals.push(newGoal);
+            console.log("New goal object:", newGoal);
+            renderGoals();
+            goalInput.value = "";
+        }
+
+        addGoalBtn.addEventListener("click", handleAddGoal);
+
+        const addHabitBtn = document.getElementById("addHabitBtn");
+        const habitInput = document.getElementById("habitInput");
+
+        function handleAddHabit() {
+            const typedText = habitInput.value;
+            const newHabit = { id: nextId, text: typedText, completed: false };
+            nextId = nextId + 1;
+            habits.push(newHabit);
+            renderHabits();
+            habitInput.value = "";
+        }
+
+        addHabitBtn.addEventListener("click", handleAddHabit);
+    </script>
+
+</body>
+</html>
