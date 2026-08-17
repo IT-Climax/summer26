@@ -1,39 +1,39 @@
-# Session 13 — Progress Tracking, Polish & "Start New Day"
+<!--
+======================================================================
+SESSION 13: Progress Tracking, Polish & "Start New Day"
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
 
-**Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)**
+OBJECTIVES:
+- Add a progress summary feature.
+- Add an Edit feature using prompt().
+- Finish daily-reset logic and final polish pass.
 
----
+TOPICS:
+- Progress calculation (completed vs total), template strings (`...`), prompt(), "Start New Day" habit reset, final CSS polish pass.
 
-## Session Details
+FEATURES BUILT:
+- Progress indicator ("3 of 5 completed today"); Edit button per item; "Start New Day" button that resets habit checkmarks without clearing goals; empty list messages.
 
-- **Objectives:** Add a progress summary feature, an Edit feature, finish daily-reset logic, final polish pass.
-- **Topics:** Counting completed vs. total items, template strings, `prompt()`, a "Start New Day" button, final CSS pass.
-- **Features Built:** A progress indicator ("3 of 5 goals completed today"); an "Edit" button per goal/habit that lets students change existing text; "Start New Day" button that resets habit completion only (not goals); final visual polish.
-- **Exercises:** Personalize colors/fonts; write a comment at the top of the file explaining, in their own words, how the app works.
-- **Expected Outcome:** A complete, working, saved, personalized Daily Goals & Habits Tracker with full create/read/update/delete functionality.
+EVERYDAY ANALOGY:
+- Template strings: Fill-in-the-blank cards `${completed}/${total}`.
+- Progress counter: Real-time game score dashboard.
+- Start New Day: Erasing checkmarks on your fridge whiteboard calendar while leaving your printed goal list untouched.
+- prompt(): Pop-up box asking for new item text.
 
----
+WHAT THE CODE DOES:
+- `renderProgress()` calculates completed count using `.filter(item => item.completed).length`.
+- `editGoal(id)` pops up `prompt()` and updates `.text` if user clicks OK.
+- `handleStartNewDay()` loops over `habits` array and resets `completed = false`.
 
-## Teaching Aids & Explanations
+EXERCISES:
+- Personalize colors and styling. Write a top comment summarizing how your app works in your own words.
 
-### Everyday Analogy
-- **Template strings (\`${...}\`)**: Like sending a fill-in-the-blank greeting card where the name and age automatically plug into `${name}` and `${age}` without messy string addition (`+`).
-- **Progress Counter**: Like a game score dashboard telling you `"3/5 quests completed!"` in real time.
-- **Start New Day**: Wiping off yesterday's habit checkmarks on your fridge whiteboard calendar, while keeping your permanent goals written down on the board!
-- **`prompt()`**: A built-in browser pop-up note asking: *"What would you like to rename this to?"*
+EXPECTED OUTCOME:
+- Complete, polished, runnable single-file web application!
+======================================================================
+-->
 
-### What the Code Does
-A **template string** (backticks `` ` ` `` instead of quotes) lets us insert variables directly into text using `${...}`, e.g. `` `${done}/${total} completed` `` — much cleaner than joining strings with `+`. The progress count is calculated with `.filter(...).length` — filter down to only the completed items, then count how many are left. "Start New Day" loops through `habits` and sets every `completed` back to `false`, without touching `goals` at all, giving the daily-habit feel without real date logic.
-
-**Editing** uses `prompt(message, defaultValue)` — a simple browser pop-up box pre-filled with the item's current text. It's the simplest possible way to let a beginner edit something. `prompt()` returns the new text if the user clicks OK, or `null` if they click Cancel — the code checks for both `null` and an empty box before saving.
-
-This is the **complete, final application** — the full single file students end the bootcamp with.
-
----
-
-## Session Code
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -412,4 +412,3 @@ This is the **complete, final application** — the full single file students en
 
 </body>
 </html>
-```

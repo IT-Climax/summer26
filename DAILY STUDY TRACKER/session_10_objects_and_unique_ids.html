@@ -1,36 +1,35 @@
-# Session 9 — DOM Manipulation: Showing Goals on the Page
+<!--
+======================================================================
+SESSION 10: Objects and Unique IDs
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
 
-**Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)**
+OBJECTIVES:
+- Understand objects as a way to bundle related pieces of data together.
 
----
+TOPICS:
+- `{}` object literal syntax, key-value pairs, dot notation, `{ id, text, completed }`.
 
-## Session Details
+FEATURES BUILT:
+- Goals/habits stored as structured objects with unique `id` counters and `completed: false`.
 
-- **Objectives:** Learn to create and insert real HTML elements from JavaScript.
-- **Topics:** `document.createElement`, `.textContent`, `.appendChild`, re-rendering.
-- **Features Built:** Adding a goal now creates a real `<li>` on the page (same for habits). The old hard-coded `<li>`s are removed from the HTML — everything now comes from JavaScript.
-- **Exercises:** Add an "No goals yet" message that disappears once an item exists.
-- **Expected Outcome:** The app visibly adds goals/habits to the page — feels like a real app for the first time.
+EVERYDAY ANALOGY:
+- Object as an ID Card / Student Card: Bundling ID number, full name, and grade level into one card.
+- Unique ID: If two students in a school are named "Alex", calling "Alex" causes confusion; calling "Student #104" identifies one exact person.
 
----
+WHAT THE CODE DOES:
+- `const newGoal = { id: nextId, text: typedText, completed: false };` creates a structured record.
+- `nextId = nextId + 1;` increments the global counter so every item gets a unique ID number.
+- Dot notation (`goals[i].text`) accesses properties on the object during rendering.
 
-## Teaching Aids & Explanations
+EXERCISES:
+- Print a full goal object to console and examine its properties in DevTools.
 
-### Everyday Analogy
-- **DOM as a tree / Lego model**: The DOM (Document Object Model) is the browser's live, in-memory build of the webpage.
-- **`document.createElement("li")`**: Opening a new unopened Lego brick out of the bag on your desk (not attached to the house yet).
-- **`.textContent`**: Sticking a custom printed sticker onto that Lego brick.
-- **`.appendChild(...)`**: Snapping that brick onto the main house model so everyone standing in the room sees it.
-- **Render Function pattern**: Wipe the table clean (`innerHTML = ""`), then look at your list of instructions (`goals` array) and snap all the Lego bricks together from scratch.
+EXPECTED OUTCOME:
+- Upgraded data structure ready to handle complete and delete actions per item.
+======================================================================
+-->
 
-### What the Code Does
-The **DOM** (Document Object Model) is the browser's live, in-memory version of the page — JavaScript can create new pieces of it. `document.createElement("li")` makes a brand new, empty `<li>` element (not yet on the page). `.textContent` sets its text. `.appendChild(...)` attaches it inside a parent element, making it actually appear. This project always follows a **render function** pattern: clear the list, then loop through the array and rebuild it from scratch — that way the screen always matches the data exactly.
-
----
-
-## Session Code
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +51,6 @@ The **DOM** (Document Object Model) is the browser's live, in-memory version of 
     <h1>My Daily Goals Tracker</h1>
     <p>This app will help me set goals and habits, and track my progress every day.</p>
 
-    <!-- The <ul> elements are now empty - JavaScript fills them in -->
     <div class="container">
         <div class="section">
             <h2>Goals</h2>
@@ -72,18 +70,17 @@ The **DOM** (Document Object Model) is the browser's live, in-memory version of 
     <script>
         let goals = [];
         let habits = [];
+        let nextId = 1; // A counter used to give every goal/habit a unique ID
 
         const goalList = document.getElementById("goalList");
         const habitList = document.getElementById("habitList");
 
-        // This function clears the goal list and rebuilds it from the goals array
         function renderGoals() {
-            goalList.innerHTML = ""; // Clear everything currently shown
-
+            goalList.innerHTML = "";
             for (let i = 0; i < goals.length; i++) {
-                const li = document.createElement("li");   // Create a new <li>
-                li.textContent = goals[i];                  // Put the goal text inside it
-                goalList.appendChild(li);                    // Add it to the page
+                const li = document.createElement("li");
+                li.textContent = goals[i].text; // Objects use dot notation to read a property
+                goalList.appendChild(li);
             }
         }
 
@@ -91,7 +88,7 @@ The **DOM** (Document Object Model) is the browser's live, in-memory version of 
             habitList.innerHTML = "";
             for (let i = 0; i < habits.length; i++) {
                 const li = document.createElement("li");
-                li.textContent = habits[i];
+                li.textContent = habits[i].text;
                 habitList.appendChild(li);
             }
         }
@@ -101,8 +98,18 @@ The **DOM** (Document Object Model) is the browser's live, in-memory version of 
 
         function handleAddGoal() {
             const typedText = goalInput.value;
-            goals.push(typedText);
-            renderGoals();          // Rebuild the list on screen
+
+            // Create an object bundling id, text, and completed status together
+            const newGoal = {
+                id: nextId,
+                text: typedText,
+                completed: false
+            };
+            nextId = nextId + 1;
+
+            goals.push(newGoal);
+            console.log("New goal object:", newGoal);
+            renderGoals();
             goalInput.value = "";
         }
 
@@ -113,7 +120,9 @@ The **DOM** (Document Object Model) is the browser's live, in-memory version of 
 
         function handleAddHabit() {
             const typedText = habitInput.value;
-            habits.push(typedText);
+            const newHabit = { id: nextId, text: typedText, completed: false };
+            nextId = nextId + 1;
+            habits.push(newHabit);
             renderHabits();
             habitInput.value = "";
         }
@@ -123,4 +132,3 @@ The **DOM** (Document Object Model) is the browser's live, in-memory version of 
 
 </body>
 </html>
-```

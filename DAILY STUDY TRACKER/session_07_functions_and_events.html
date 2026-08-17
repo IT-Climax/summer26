@@ -1,33 +1,37 @@
-# Session 7 — Functions and Events
+<!--
+======================================================================
+SESSION 7: Functions and Events
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
 
-**Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)**
+OBJECTIVES:
+- Understand functions as reusable action recipes.
+- Connect button clicks on the page to JavaScript code execution.
 
----
+TOPICS:
+- function keyword, parameters, document.getElementById(), addEventListener(), click event.
 
-## Session Details
+FEATURES BUILT:
+- Clicking "Add Goal" logs the typed text to console. Same for "Add Habit".
 
-- **Objectives:** Understand functions as reusable actions; connect a button click to code.
-- **Topics:** `function`, parameters, `addEventListener`, the `click` event.
-- **Features Built:** Clicking "Add Goal" shows the typed text in the console. Same for "Add Habit."
-- **Exercises:** Make the "Add Habit" button do the same as "Add Goal."
-- **Expected Outcome:** Buttons are "alive" — first real interactivity.
+EVERYDAY ANALOGY:
+- Function as a recipe: Named sequence of steps (e.g. handleAddGoal). Writing a recipe doesn't bake the cake; calling it runs the steps.
+- addEventListener as a doorbell: Wiring up a front door button to chime a bell whenever pressed.
 
----
+WHAT THE CODE DOES:
+- `document.getElementById("addGoalBtn")` targets the HTML button element by its ID.
+- `function handleAddGoal() { ... }` defines the action.
+- `addGoalBtn.addEventListener("click", handleAddGoal)` listens for clicks and triggers the function.
+- `goalInput.value` reads the typed text string inside the input field.
 
-## Teaching Aids & Explanations
+EXERCISES:
+- Make the "Add Habit" button print to console when clicked.
 
-### Everyday Analogy
-- **Functions as recipes**: A function is like writing down a cooking recipe titled `handleAddGoal()`. Just writing down the recipe doesn't cook the food; the recipe only runs when someone follows the instructions.
-- **`addEventListener` as a doorbell**: Wiring up a doorbell outside your house. You tell the front door button: *"Whenever someone presses (clicks) you, chime the bell (run the `handleAddGoal` function)."*
+EXPECTED OUTCOME:
+- Buttons respond to clicks dynamically for the first time.
+======================================================================
+-->
 
-### What the Code Does
-A **function** is a named, reusable recipe for a set of steps — write it once, run it as many times as needed by calling its name followed by `()`. `document.getElementById("...")` finds an HTML element by its `id`, so JavaScript can read or change it. `addEventListener("click", ...)` tells an element "run this function whenever you get clicked" — like a doorbell wired to a specific action.
-
----
-
-## Session Code
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,4 +103,3 @@ A **function** is a named, reusable recipe for a set of steps — write it once,
 
 </body>
 </html>
-```

@@ -1,36 +1,39 @@
-# Session 10 — Objects and Unique IDs
+<!--
+======================================================================
+SESSION 9: DOM Manipulation: Showing Goals on the Page
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
 
-**Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)**
+OBJECTIVES:
+- Learn to dynamically create and insert real HTML elements via JavaScript.
 
----
+TOPICS:
+- document.createElement(), textContent property, appendChild(), render functions.
 
-## Session Details
+FEATURES BUILT:
+- Adding a goal creates a real <li> on the page. Hardcoded <li> items removed from HTML.
 
-- **Objectives:** Understand objects as a way to bundle related data.
-- **Topics:** `{}` object literals, dot notation, `{ id, text, completed }`.
-- **Features Built:** Goals/habits are now stored as objects with a unique `id` and `completed: false`, instead of plain text. Rendering is updated to read `.text`.
-- **Exercises:** Print a full goal object to the console and identify each property.
-- **Expected Outcome:** The data structure is upgraded to support completing and deleting specific items.
+EVERYDAY ANALOGY:
+- DOM as a live Lego house build:
+  * document.createElement("li"): Opening an unattached Lego brick onto your desk.
+  * .textContent: Sticking a printed label onto that Lego brick.
+  * .appendChild(...): Snapping the Lego brick onto the main model structure on display.
+- Render function: Clearing the display table (innerHTML = "") and rebuilding all bricks from scratch based on the memory list array.
 
----
+WHAT THE CODE DOES:
+- `document.createElement("li")` creates an element object in memory.
+- `li.textContent = goals[i]` fills text.
+- `goalList.appendChild(li)` places it inside the <ul> on screen.
+- `renderGoals()` wipes `goalList.innerHTML = ""` and loops over the `goals` array to build the list.
 
-## Teaching Aids & Explanations
+EXERCISES:
+- Add a conditional "No goals yet" message when the array is empty.
 
-### Everyday Analogy
-- **Objects as ID Cards / Passport Cards**: Instead of just writing `"Finish homework"` on a blank piece of paper, an **object** is like creating a structured ID card:
-  - `id: 1` (Serial Number / Student ID number)
-  - `text: "Finish homework"` (Goal description)
-  - `completed: false` (Status stamp — checked or unchecked)
-- **Unique IDs**: Imagine two students named "Alex" in a school class. If the teacher calls "Alex", both stand up. But if the teacher calls "Student ID #104", only 1 specific student responds! That's why every goal gets a unique ID number.
+EXPECTED OUTCOME:
+- Website updates live on screen when items are added.
+======================================================================
+-->
 
-### What the Code Does
-An **object** bundles several related pieces of data together under one value, written with curly braces `{}`. Each piece is a `property: value` pair, read using a dot, like `goal.text`. We give every goal/habit a unique **id** using a simple counter that goes up by 1 each time — this ID is how we'll find and change the *exact right* item later, even if two goals have the same text.
-
----
-
-## Session Code
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +55,7 @@ An **object** bundles several related pieces of data together under one value, w
     <h1>My Daily Goals Tracker</h1>
     <p>This app will help me set goals and habits, and track my progress every day.</p>
 
+    <!-- The <ul> elements are now empty - JavaScript fills them in -->
     <div class="container">
         <div class="section">
             <h2>Goals</h2>
@@ -71,17 +75,18 @@ An **object** bundles several related pieces of data together under one value, w
     <script>
         let goals = [];
         let habits = [];
-        let nextId = 1; // A counter used to give every goal/habit a unique ID
 
         const goalList = document.getElementById("goalList");
         const habitList = document.getElementById("habitList");
 
+        // This function clears the goal list and rebuilds it from the goals array
         function renderGoals() {
-            goalList.innerHTML = "";
+            goalList.innerHTML = ""; // Clear everything currently shown
+
             for (let i = 0; i < goals.length; i++) {
-                const li = document.createElement("li");
-                li.textContent = goals[i].text; // Objects use dot notation to read a property
-                goalList.appendChild(li);
+                const li = document.createElement("li");   // Create a new <li>
+                li.textContent = goals[i];                  // Put the goal text inside it
+                goalList.appendChild(li);                    // Add it to the page
             }
         }
 
@@ -89,7 +94,7 @@ An **object** bundles several related pieces of data together under one value, w
             habitList.innerHTML = "";
             for (let i = 0; i < habits.length; i++) {
                 const li = document.createElement("li");
-                li.textContent = habits[i].text;
+                li.textContent = habits[i];
                 habitList.appendChild(li);
             }
         }
@@ -99,18 +104,8 @@ An **object** bundles several related pieces of data together under one value, w
 
         function handleAddGoal() {
             const typedText = goalInput.value;
-
-            // Create an object bundling id, text, and completed status together
-            const newGoal = {
-                id: nextId,
-                text: typedText,
-                completed: false
-            };
-            nextId = nextId + 1;
-
-            goals.push(newGoal);
-            console.log("New goal object:", newGoal);
-            renderGoals();
+            goals.push(typedText);
+            renderGoals();          // Rebuild the list on screen
             goalInput.value = "";
         }
 
@@ -121,9 +116,7 @@ An **object** bundles several related pieces of data together under one value, w
 
         function handleAddHabit() {
             const typedText = habitInput.value;
-            const newHabit = { id: nextId, text: typedText, completed: false };
-            nextId = nextId + 1;
-            habits.push(newHabit);
+            habits.push(typedText);
             renderHabits();
             habitInput.value = "";
         }
@@ -133,4 +126,3 @@ An **object** bundles several related pieces of data together under one value, w
 
 </body>
 </html>
-```

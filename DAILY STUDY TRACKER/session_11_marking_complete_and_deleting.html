@@ -1,36 +1,35 @@
-# Session 12 — Local Storage: Saving Progress
+<!--
+======================================================================
+SESSION 11: Marking Complete & Deleting
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
 
-**Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)**
+OBJECTIVES:
+- Update and remove specific items from lists using their unique ID.
 
----
+TOPICS:
+- .filter() method, boolean toggling (!), conditional CSS classes (.completed).
 
-## Session Details
+FEATURES BUILT:
+- Checkbox toggles item completion; Delete button deletes matching item by ID; strikethrough styling applied.
 
-- **Objectives:** Understand that browser memory is temporary, and how localStorage solves that.
-- **Topics:** `localStorage.setItem`, `localStorage.getItem`, `JSON.stringify`, `JSON.parse`.
-- **Features Built:** Goals and habits now persist after closing and reopening the browser.
-- **Exercises:** Save data, close the tab, reopen it, confirm goals are still there; clear localStorage and watch the app reset.
-- **Expected Outcome:** The core "save progress" requirement is complete.
+EVERYDAY ANALOGY:
+- Toggling boolean: Light switch flipping between ON (true) and OFF (false).
+- Deleting with .filter(): Sifting apples through a mesh net with rule "Keep every apple whose ID is NOT 3".
 
----
+WHAT THE CODE DOES:
+- `goals[i].completed = !goals[i].completed;` flips true to false and vice-versa.
+- `goals = goals.filter(function(goal) { return goal.id !== id; });` creates a new array excluding the target ID.
+- Render loop appends a checkbox, text span, and delete button to each `<li>`.
 
-## Teaching Aids & Explanations
+EXERCISES:
+- Add a "Clear completed" button exercise.
 
-### Everyday Analogy
-- **RAM vs Storage**: Normal variables live in temporary memory (RAM) — like writing on a classroom whiteboard. When school closes at night (browser tab closes), the janitor erases the whiteboard!
-- **`localStorage` as a mini notebook**: `localStorage` is like keeping a small hard-cover pocket notebook inside the browser's desk drawer.
-- **`JSON.stringify` & `JSON.parse`**:
-  - `JSON.stringify`: Folding up a complex paper origami crane (our JS array of objects) flat so it fits into an envelope (plain text string) to store in the notebook drawer.
-  - `JSON.parse`: Unfolding the letter from the envelope back into a 3D origami crane (a live JS array of objects).
+EXPECTED OUTCOME:
+- Full Create, Read, Update, Delete (CRUD) capability in user interface.
+======================================================================
+-->
 
-### What the Code Does
-`localStorage` is a small notebook the browser keeps for each website, even after the tab is closed. It can only store **text**, not arrays or objects directly — so `JSON.stringify(goals)` turns our array into a text version to save, and `JSON.parse(savedText)` turns that text back into a real array when we load the page. We save after every single change (add, complete, delete), and load once when the page first opens.
-
----
-
-## Session Code
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,27 +88,21 @@
     </div>
 
     <script>
+        let goals = [];
+        let habits = [];
         let nextId = 1;
-
-        // Try to load saved goals/habits; if nothing is saved yet, start with empty arrays
-        let goals = JSON.parse(localStorage.getItem("goals")) || [];
-        let habits = JSON.parse(localStorage.getItem("habits")) || [];
-
-        // Saves the current goals and habits arrays into localStorage as text
-        function saveData() {
-            localStorage.setItem("goals", JSON.stringify(goals));
-            localStorage.setItem("habits", JSON.stringify(habits));
-        }
 
         const goalList = document.getElementById("goalList");
         const habitList = document.getElementById("habitList");
 
         function renderGoals() {
             goalList.innerHTML = "";
+
             for (let i = 0; i < goals.length; i++) {
                 const goal = goals[i];
                 const li = document.createElement("li");
 
+                // Checkbox to mark this goal complete/incomplete
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.checked = goal.completed;
@@ -117,10 +110,14 @@
                     toggleGoalComplete(goal.id);
                 });
 
+                // Text label for the goal
                 const span = document.createElement("span");
                 span.textContent = goal.text;
-                if (goal.completed) span.classList.add("completed");
+                if (goal.completed) {
+                    span.classList.add("completed"); // Add strikethrough style
+                }
 
+                // Delete button
                 const deleteBtn = document.createElement("button");
                 deleteBtn.textContent = "Delete";
                 deleteBtn.addEventListener("click", function () {
@@ -136,6 +133,7 @@
 
         function renderHabits() {
             habitList.innerHTML = "";
+
             for (let i = 0; i < habits.length; i++) {
                 const habit = habits[i];
                 const li = document.createElement("li");
@@ -149,7 +147,9 @@
 
                 const span = document.createElement("span");
                 span.textContent = habit.text;
-                if (habit.completed) span.classList.add("completed");
+                if (habit.completed) {
+                    span.classList.add("completed");
+                }
 
                 const deleteBtn = document.createElement("button");
                 deleteBtn.textContent = "Delete";
@@ -164,32 +164,38 @@
             }
         }
 
+        // Flips a goal's completed status by finding it via its id
         function toggleGoalComplete(id) {
             for (let i = 0; i < goals.length; i++) {
-                if (goals[i].id === id) goals[i].completed = !goals[i].completed;
+                if (goals[i].id === id) {
+                    goals[i].completed = !goals[i].completed; // Flip true/false
+                }
             }
             renderGoals();
-            saveData(); // Save every time the data changes
         }
 
+        // Removes a goal by keeping everything EXCEPT the matching id
         function deleteGoal(id) {
-            goals = goals.filter(function (goal) { return goal.id !== id; });
+            goals = goals.filter(function (goal) {
+                return goal.id !== id;
+            });
             renderGoals();
-            saveData();
         }
 
         function toggleHabitComplete(id) {
             for (let i = 0; i < habits.length; i++) {
-                if (habits[i].id === id) habits[i].completed = !habits[i].completed;
+                if (habits[i].id === id) {
+                    habits[i].completed = !habits[i].completed;
+                }
             }
             renderHabits();
-            saveData();
         }
 
         function deleteHabit(id) {
-            habits = habits.filter(function (habit) { return habit.id !== id; });
+            habits = habits.filter(function (habit) {
+                return habit.id !== id;
+            });
             renderHabits();
-            saveData();
         }
 
         const addGoalBtn = document.getElementById("addGoalBtn");
@@ -201,7 +207,6 @@
             nextId = nextId + 1;
             goals.push(newGoal);
             renderGoals();
-            saveData();
             goalInput.value = "";
         }
 
@@ -216,17 +221,11 @@
             nextId = nextId + 1;
             habits.push(newHabit);
             renderHabits();
-            saveData();
             habitInput.value = "";
         }
 
         addHabitBtn.addEventListener("click", handleAddHabit);
-
-        // Show anything already saved from a previous visit
-        renderGoals();
-        renderHabits();
     </script>
 
 </body>
 </html>
-```

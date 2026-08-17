@@ -1,34 +1,37 @@
-# Session 8 — Arrays: Storing Multiple Goals
+<!--
+======================================================================
+SESSION 8: Arrays: Storing Multiple Goals
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
 
-**Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)**
+OBJECTIVES:
+- Understand arrays as ordered lists of data.
 
----
+TOPICS:
+- Array literal syntax [], .push() method, zero-based indexing, .length property.
 
-## Session Details
+FEATURES BUILT:
+- Clicking "Add Goal" pushes typed text into a `goals` array in memory. Same for `habits`.
 
-- **Objectives:** Understand arrays as lists of data.
-- **Topics:** `[]`, `.push()`, indexing, `.length`.
-- **Features Built:** Clicking "Add Goal" pushes the typed text into a `goals` array (visible via `console.log`).
-- **Exercises:** Do the same for a `habits` array; log the full array after adding 3 items.
-- **Expected Outcome:** Data is being collected in memory, even though it isn't shown on screen yet.
+EVERYDAY ANALOGY:
+- Array as a lined notebook binder: Storing multiple items in one place instead of individual variable boxes.
+- .push(): Adding a new page to the end of the binder stack.
+- Zero-based index: Track runner position numbers starting at 0 ([0], [1], [2]).
 
----
+WHAT THE CODE DOES:
+- `let goals = [];` creates an empty array list.
+- `goals.push(typedText);` appends the string to the array.
+- `goals.length` returns total item count.
+- `goalInput.value = "";` clears the input box text after adding.
 
-## Teaching Aids & Explanations
+EXERCISES:
+- Do the same for habits array and log full array after adding 3 items.
 
-### Everyday Analogy
-- **Arrays as a binder/to-do list notebook**: Instead of storing 1 goal in 1 single variable box, an array `goals = []` is like opening a fresh lined notebook binder where you can add as many pages/items as you want.
-- **`.push()`**: Dropping a new sheet of paper onto the end of the stack in the binder.
-- **Index numbers**: Position numbers on a runner's track starting at `0` (the first runner is `[0]`, the second is `[1]`, etc.).
+EXPECTED OUTCOME:
+- Data is collected and managed in JavaScript memory.
+======================================================================
+-->
 
-### What the Code Does
-An **array** is a list that can hold many values in order, written with square brackets `[]`. `.push(item)` adds a new item to the end of the array. Each item has an **index** (position number, starting at 0) and `.length` tells us how many items are inside.
-
----
-
-## Session Code
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,4 +108,3 @@ An **array** is a list that can hold many values in order, written with square b
 
 </body>
 </html>
-```

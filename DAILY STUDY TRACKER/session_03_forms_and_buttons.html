@@ -1,0 +1,69 @@
+<!--
+======================================================================
+SESSION 3: Forms and Buttons
+Bootcamp Curriculum: Daily Goals & Habits Tracker (Ages 13–16)
+======================================================================
+
+OBJECTIVES:
+- Understand how users input data into a webpage.
+
+TOPICS:
+- <input>, <button>, placeholder attribute, id attribute.
+
+FEATURES BUILT:
+- An input box + "Add Goal" button under Goals section; same for Habits.
+
+EVERYDAY ANALOGY:
+- <input>: A blank box on a paper form where a user writes text.
+- placeholder: Faint sample text printed inside the box to show what to type.
+- id attribute: A unique name tag / SSN attached to that specific box so code can target it later.
+
+WHAT THE CODE DOES:
+- <input type="text"> creates a text input box.
+- placeholder shows hint text that vanishes when typing starts.
+- The `id` attribute gives an element a unique identifier — JS will use this to find the exact element.
+- IDs must be unique and spelled identically in JavaScript later.
+
+EXERCISES:
+- Get the form elements on the page with correct unique `id`s.
+
+EXPECTED OUTCOME:
+- A page with visible (non-functional) input forms.
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Goals Tracker</title>
+</head>
+<body>
+
+    <h1>My Daily Goals Tracker</h1>
+    <p>This app will help me set goals and habits, and track my progress every day.</p>
+
+    <div>
+        <h2>Goals</h2>
+        <ul id="goalList">
+            <li>Finish my homework</li>
+            <li>Read for 20 minutes</li>
+        </ul>
+
+        <!-- The id gives this input a name so JavaScript can find it later -->
+        <input type="text" id="goalInput" placeholder="Type a new goal...">
+        <button id="addGoalBtn">Add Goal</button>
+    </div>
+
+    <div>
+        <h2>Habits</h2>
+        <ul id="habitList">
+            <li>Drink water</li>
+            <li>Stretch in the morning</li>
+        </ul>
+
+        <input type="text" id="habitInput" placeholder="Type a new habit...">
+        <button id="addHabitBtn">Add Habit</button>
+    </div>
+
+</body>
+</html>
