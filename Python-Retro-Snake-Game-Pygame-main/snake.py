@@ -1,3 +1,11 @@
+"""
+Session 1:
+Import parkage
+Intitiation of the game
+Setting tittle, screen size
+Setting background color and forground colour
+Setting Pixel size and offset marging
+"""
 import pygame, sys, random
 from pygame.math import Vector2
 
@@ -140,8 +148,9 @@ while True:
 	game.draw()
 	title_surface = title_font.render("Retro Snake", True, DARK_GREEN)
 	score_surface = score_font.render(str(game.score), True, DARK_GREEN)
+	# score_surface = score_font.render(str("value"), True, DARK_GREEN)
 	screen.blit(title_surface, (OFFSET-5, 20))
 	screen.blit(score_surface, (OFFSET-5, OFFSET + cell_size*number_of_cells +10))
 
 	pygame.display.update()
-	clock.tick(60)
+	# clock.tick(60)
